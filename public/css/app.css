@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    TIM PPSDK â€” Enterprise Design System v2.0
    Modern, Responsive, Premium Government Dashboard
    ============================================================ */
@@ -2088,3 +2088,332 @@ html {
     font-size: 0.78rem;
 }
 
+/* ============================================================
+   SIDEBAR STYLES
+   ============================================================ */
+
+/* Sidebar Arrow */
+.nav-arrow {
+    transition: transform var(--transition-base) !important;
+}
+
+.menu-open > .nav-link .nav-arrow {
+    transform: rotate(-90deg);
+}
+
+/* Sidebar Menu Badge */
+.sidebar-badge {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.5rem;
+    border-radius: 50rem;
+    background: rgba(255,255,255,0.15);
+}
+
+/* Sidebar Brand */
+.sidebar-brand {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+}
+
+.sidebar-brand .brand-link {
+    gap: 0.5rem;
+}
+
+.sidebar-brand .brand-image {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+}
+
+.sidebar-brand .brand-text {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.5px;
+}
+
+.sidebar-brand .brand-text small {
+    display: block;
+    font-size: 0.7rem;
+    font-weight: 400;
+    opacity: 0.7;
+    letter-spacing: 1px;
+}
+
+/* Sidebar Styling */
+.app-sidebar {
+    background: var(--sidebar-bg) !important;
+    border-right: none !important;
+    font-family: 'Inter', sans-serif;
+}
+
+.app-sidebar .sidebar-wrapper {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: calc(100vh - 80px);
+}
+
+.app-sidebar .nav-header {
+    color: rgba(255,255,255,0.4) !important;
+    font-size: 0.68rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 1.2rem 1rem 0.4rem;
+}
+
+.app-sidebar .nav-link {
+    color: rgba(255,255,255,0.75) !important;
+    padding: 0.6rem 1rem;
+    border-radius: var(--radius-md);
+    margin: 2px 0.5rem;
+    transition: all var(--transition-fast);
+    font-size: 0.84rem;
+    font-weight: 500;
+}
+
+.app-sidebar .nav-link:hover {
+    color: #fff !important;
+    background: var(--sidebar-hover-bg) !important;
+}
+
+.app-sidebar .nav-link.active {
+    color: #fff !important;
+    background: var(--sidebar-active-bg) !important;
+    box-shadow: inset 3px 0 0 var(--ppsdk-accent);
+}
+
+.app-sidebar .nav-link .nav-icon {
+    width: 1.4rem;
+    text-align: center;
+    margin-right: 0.6rem;
+    font-size: 0.92rem;
+    opacity: 0.8;
+}
+
+.app-sidebar .nav-link.active .nav-icon {
+    opacity: 1;
+    color: var(--ppsdk-accent);
+}
+
+/* Sidebar User Panel */
+.sidebar-user-panel {
+    padding: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    margin-top: auto;
+    position: sticky;
+    bottom: 0;
+    background: inherit;
+}
+
+.sidebar-user-panel .user-info {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.sidebar-user-panel .user-avatar {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 2px solid rgba(255,255,255,0.2);
+}
+
+.sidebar-user-panel .user-name {
+    color: #fff;
+    font-size: 0.84rem;
+    font-weight: 600;
+}
+
+.sidebar-user-panel .user-role {
+    color: rgba(255,255,255,0.5);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ============================================================
+   THEME TOGGLE
+   ============================================================ */
+.theme-toggle {
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    color: var(--ppsdk-text-secondary);
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+    font-size: 1rem;
+}
+
+.theme-toggle:hover {
+    background: var(--ppsdk-primary-soft);
+    color: var(--ppsdk-primary);
+    transform: rotate(20deg);
+}
+
+/* ============================================================
+   DARK MODE
+   ============================================================ */
+[data-bs-theme="dark"] {
+    --ppsdk-bg: #000000;
+    --ppsdk-bg-card: #111111;
+    --ppsdk-border: #222222;
+    --ppsdk-border-light: #1a1a1a;
+    --ppsdk-text: #E5E7EB;
+    --ppsdk-text-secondary: #9CA3AF;
+    --ppsdk-text-muted: #6B7280;
+    --ppsdk-primary-soft: rgba(21, 101, 192, 0.15);
+    --sidebar-bg: linear-gradient(180deg, #000000 0%, #000000 100%);
+}
+
+[data-bs-theme="dark"] body,
+[data-bs-theme="dark"] .app-wrapper,
+[data-bs-theme="dark"] .content-wrapper {
+    background-color: #000000 !important;
+}
+
+[data-bs-theme="dark"] .app-sidebar {
+    background: #000000 !important;
+    border-right: 1px solid #1a1a1a !important;
+}
+
+[data-bs-theme="dark"] .card {
+    background: #111111 !important;
+    border-color: #222222 !important;
+}
+
+[data-bs-theme="dark"] .table {
+    --bs-table-bg: #111111;
+    --bs-table-border-color: #222222;
+    color: #E5E7EB;
+}
+
+[data-bs-theme="dark"] .table thead th {
+    background: #0a0a0a !important;
+    border-color: #222222 !important;
+    color: #9CA3AF !important;
+}
+
+[data-bs-theme="dark"] .table tbody tr:hover {
+    background: #1a1a1a !important;
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: #1a1a1a !important;
+    border-color: #333 !important;
+    color: #E5E7EB !important;
+}
+
+[data-bs-theme="dark"] .modal-content {
+    background: #111111 !important;
+    border-color: #222222 !important;
+}
+
+[data-bs-theme="dark"] .navbar,
+[data-bs-theme="dark"] .app-header {
+    background: #000000 !important;
+    border-bottom: 1px solid #1a1a1a !important;
+}
+
+[data-bs-theme="dark"] .dropdown-menu {
+    background: #111111 !important;
+    border-color: #222222 !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item {
+    color: #E5E7EB !important;
+}
+
+[data-bs-theme="dark"] .dropdown-item:hover {
+    background: #1a1a1a !important;
+}
+
+[data-bs-theme="dark"] .theme-toggle {
+    color: #FFD54F;
+    background: rgba(255, 213, 79, 0.1);
+    border-color: rgba(255, 213, 79, 0.2);
+}
+
+[data-bs-theme="dark"] .badge.text-bg-primary { background: var(--ppsdk-primary) !important; }
+[data-bs-theme="dark"] .badge.text-bg-success { background: var(--ppsdk-success) !important; }
+[data-bs-theme="dark"] .badge.text-bg-warning { background: var(--ppsdk-warning) !important; color: #fff !important; }
+[data-bs-theme="dark"] .badge.text-bg-danger { background: var(--ppsdk-danger) !important; }
+
+[data-bs-theme="dark"] .text-muted {
+    color: #6B7280 !important;
+}
+
+[data-bs-theme="dark"] .card-header {
+    background: #0a0a0a !important;
+    border-bottom: 1px solid #222222 !important;
+}
+
+[data-bs-theme="dark"] .page-header h1 {
+    color: #E5E7EB;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+    color: var(--ppsdk-accent) !important;
+    border-color: var(--ppsdk-accent) !important;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+    background: var(--ppsdk-accent) !important;
+    color: #fff !important;
+}
+
+/* Stat cards keep their vibrant colors in dark mode */
+[data-bs-theme="dark"] .stat-card-blue { background: linear-gradient(135deg, #0A3D6B 0%, #1565C0 100%); box-shadow: 0 8px 30px rgba(21, 101, 192, 0.5) !important; }
+[data-bs-theme="dark"] .stat-card-cyan { background: linear-gradient(135deg, #00695C 0%, #00897B 100%); box-shadow: 0 8px 30px rgba(0, 137, 123, 0.5) !important; }
+[data-bs-theme="dark"] .stat-card-amber { background: linear-gradient(135deg, #E65100 0%, #F57C00 100%); box-shadow: 0 8px 30px rgba(245, 124, 0, 0.5) !important; }
+[data-bs-theme="dark"] .stat-card-green { background: linear-gradient(135deg, #1B5E20 0%, #388E3C 100%); box-shadow: 0 8px 30px rgba(56, 142, 60, 0.5) !important; }
+[data-bs-theme="dark"] .stat-card-purple { background: linear-gradient(135deg, #4A148C 0%, #7B1FA2 100%); box-shadow: 0 8px 30px rgba(123, 31, 162, 0.5) !important; }
+[data-bs-theme="dark"] .stat-card-red { background: linear-gradient(135deg, #B71C1C 0%, #D32F2F 100%); box-shadow: 0 8px 30px rgba(211, 47, 47, 0.5) !important; }
+[data-bs-theme="dark"] .stat-card-teal { background: linear-gradient(135deg, #004D40 0%, #00796B 100%); box-shadow: 0 8px 30px rgba(0, 121, 107, 0.5) !important; }
+[data-bs-theme="dark"] .stat-card-indigo { background: linear-gradient(135deg, #1A237E 0%, #303F9F 100%); box-shadow: 0 8px 30px rgba(48, 63, 159, 0.5) !important; }
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 991.98px) {
+    .app-sidebar {
+        transform: translateX(-100%);
+        transition: transform 0.3s ease;
+    }
+    .sidebar-open .app-sidebar {
+        transform: translateX(0);
+    }
+    .stat-card {
+        min-height: auto;
+        padding: 1.2rem;
+    }
+    .stat-card .stat-value {
+        font-size: 1.6rem;
+    }
+    .stat-card .stat-icon {
+        width: 45px;
+        height: 45px;
+        font-size: 1.2rem;
+    }
+}
+
+@media (max-width: 767.98px) {
+    .page-header {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 0.5rem;
+    }
+    .page-header .btn {
+        width: 100%;
+        text-align: center;
+    }
+    .stat-card .stat-value {
+        font-size: 1.4rem;
+    }
+}
