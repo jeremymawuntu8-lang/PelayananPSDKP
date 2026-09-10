@@ -62,7 +62,7 @@
     </nav>
 
     {{-- SIDEBAR --}}
-    <aside class="app-sidebar shadow-lg" data-bs-theme="dark">
+    <aside class="app-sidebar shadow-lg">
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center text-decoration-none">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="brand-image me-2">
