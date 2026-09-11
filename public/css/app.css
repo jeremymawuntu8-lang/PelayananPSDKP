@@ -2468,21 +2468,18 @@ html[data-bs-theme="dark"] {
     display: flex !important;
     align-items: center !important;
     gap: 0.75rem !important;
-    padding: 0.5rem !important;
 }
 .sidebar-brand .brand-image {
-    max-height: 40px !important;
-    width: 40px !important;
-    height: 40px !important;
+    max-height: 38px !important;
+    width: 38px !important;
+    height: 38px !important;
     object-fit: contain !important;
     filter: brightness(0) invert(1) !important;
-    margin: 0 !important;
 }
 .sidebar-brand .brand-text {
-    font-size: 1.2rem !important;
+    font-size: 1.15rem !important;
     font-weight: 700 !important;
     color: #fff !important;
-    margin: 0 !important;
     line-height: 1 !important;
     white-space: nowrap !important;
 }
