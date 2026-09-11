@@ -2486,3 +2486,7 @@ html[data-bs-theme="dark"] {
     line-height: 1 !important;
     white-space: nowrap !important;
 }
+/* FIX USER PANEL BACKGROUND */
+.sidebar-user-panel {
+    background: transparent !important;
+}
