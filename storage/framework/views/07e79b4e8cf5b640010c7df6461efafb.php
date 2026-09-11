@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.5.0/css/responsive.bootstrap5.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/css/select2.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css">
-    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>">
+    <link rel="stylesheet" href="<?php echo e(asset('css/app.css')); ?>?v=<?php echo e(filemtime(public_path('css/app.css'))); ?>">
 
     <?php echo $__env->yieldPushContent('styles'); ?>
 </head>
@@ -66,8 +66,8 @@
         <div class="sidebar-brand">
             <a href="<?php echo e(route('dashboard')); ?>" class="brand-link d-flex align-items-center text-decoration-none">
                 <img src="<?php echo e(asset('images/logo.png')); ?>" alt="Logo" class="brand-image me-2">
-                <span class="brand-text">
-                    PSDKP <small>Pelayanan</small>
+                <span class="brand-text text-white text-nowrap">
+                    <strong>PSDKP</strong> <span style="font-size: 0.9em; opacity: 0.9;">Pelayanan</span>
                 </span>
             </a>
         </div>

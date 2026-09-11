@@ -2433,3 +2433,56 @@ html[data-bs-theme="dark"] {
         font-size: 1.4rem;
     }
 }
+/* ============================================================
+   FORCED SIDEBAR FIX TO MATCH HOSTING
+   ============================================================ */
+.sidebar-menu .nav-link.active,
+.sidebar-menu > .nav-item > .nav-link.active,
+.app-sidebar .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    background: rgba(255, 255, 255, 0.1) !important;
+    color: #fff !important;
+    border: none !important;
+    border-left: none !important;
+    box-shadow: none !important;
+    font-weight: 600 !important;
+}
+.sidebar-menu .nav-link.active::after,
+.sidebar-menu > .nav-item > .nav-link.active::after,
+.app-sidebar .nav-link.active::after {
+    display: none !important;
+}
+.sidebar-menu .nav-link:hover,
+.sidebar-menu > .nav-item > .nav-link:hover,
+.app-sidebar .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    background: rgba(255, 255, 255, 0.06) !important;
+    color: #fff !important;
+}
+.sidebar-brand .brand-image {
+    max-height: 48px !important;
+    height: auto !important;
+}
+/* FIX LOGO AND TEXT */
+.sidebar-brand .brand-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.75rem !important;
+    padding: 0.5rem !important;
+}
+.sidebar-brand .brand-image {
+    max-height: 40px !important;
+    width: 40px !important;
+    height: 40px !important;
+    object-fit: contain !important;
+    filter: brightness(0) invert(1) !important;
+    margin: 0 !important;
+}
+.sidebar-brand .brand-text {
+    font-size: 1.2rem !important;
+    font-weight: 700 !important;
+    color: #fff !important;
+    margin: 0 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+}
