@@ -62,12 +62,12 @@
     </nav>
 
     {{-- SIDEBAR --}}
-    <aside class="app-sidebar shadow-lg">
+    <aside class="app-sidebar shadow-lg" data-bs-theme="dark">
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center text-decoration-none">
                 <img src="{{ asset('images/logo.png') }}" alt="Logo" class="brand-image me-2">
-                <span class="brand-text">
-                    PSDKP <small>Pelayanan</small>
+                <span class="brand-text text-white text-nowrap">
+                    <strong>PSDKP</strong> <span style="font-size: 0.9em; opacity: 0.9;">Pelayanan</span>
                 </span>
             </a>
         </div>
