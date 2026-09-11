@@ -2487,3 +2487,19 @@ html[data-bs-theme="dark"] {
 .sidebar-user-panel {
     background: transparent !important;
 }
+/* FIX SIDEBAR BRAND AND HEADER ALIGNMENT */
+.app-header.navbar {
+    height: 64px !important;
+    min-height: 64px !important;
+}
+.sidebar-brand {
+    height: 64px !important;
+    min-height: 64px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding: 0 1rem !important;
+    border-bottom: 1px solid #1a1a1a !important;
+}
+.sidebar-brand .brand-link {
+    width: 100% !important;
+}
