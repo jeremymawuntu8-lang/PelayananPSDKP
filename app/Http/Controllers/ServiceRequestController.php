@@ -41,8 +41,8 @@ class ServiceRequestController extends Controller
             'frekuensi_pelanggaran' => 'nullable|integer',
             'upt_terdekat' => 'nullable|string',
             'observation_date' => 'nullable|date',
-            'latitude' => 'nullable|numeric',
-            'longitude' => 'nullable|numeric',
+            'latitude' => 'nullable|numeric|between:-90,90',
+            'longitude' => 'nullable|numeric|between:-180,180',
             
             // New ServiceRequest fields
             'analyst' => 'nullable|string',
