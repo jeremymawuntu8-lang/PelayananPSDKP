@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Login Pemilik Kapal | PSDKP Pelayanan</title>
+    <title>Login Pemilik Kapal | SIKAP PSDKP</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -66,9 +66,9 @@
                     <div class="col-md-5 login-side d-none d-md-flex text-center">
                         <div class="login-side-content">
                             <div class="mb-4">
-                                <img src="{{ asset('images/logo.png') }}" alt="Logo PSDKP" class="img-fluid" style="max-height: 130px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo PSDKP" class="img-fluid" style="max-height: 130px; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1));">
                             </div>
-                            <h3 class="fw-bold mb-3" style="letter-spacing: -0.02em;">PSDKP Pelayanan</h3>
+                            <h3 class="fw-bold mb-3" style="letter-spacing: -0.02em;">SIKAP PSDKP</h3>
                             <p class="mb-0 opacity-75 text-sm" style="line-height: 1.6;">Sistem Informasi Pelayanan Pengawasan Sumber Daya Kelautan dan Perikanan.</p>
                         </div>
                     </div>
@@ -78,8 +78,8 @@
                         
                         {{-- Mobile Logo --}}
                         <div class="mobile-logo d-none">
-                            <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 60px;">
-                            <h4 class="fw-bold mt-2 mb-0" style="color: var(--ppsdk-primary);">PSDKP Pelayanan</h4>
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 60px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));">
+                            <h4 class="fw-bold mt-2 mb-0" style="color: var(--ppsdk-primary);">SIKAP PSDKP</h4>
                         </div>
 
                         <div class="mb-4 text-center text-md-start">

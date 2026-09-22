@@ -196,7 +196,13 @@ class ServiceRequestController extends Controller
             if (str_starts_with($phone, '0')) $phone = '62' . substr($phone, 1);
             
             $url = url('/klaim');
-            $msg = "Yth. {$service->company->name},\n\nTerdapat pemberitahuan/pelayanan PSDKP baru untuk kapal Anda.\n\nSilakan kunjungi sistem kami di:\n{$url}\n\nLalu masukkan Kode Unik berikut untuk membuka dokumen Anda:\n*{$service->unique_code}*\n\nTerima kasih,\nPSDKP Pelayanan";
+            $kapal = $service->ship?->name ?? '-';
+            $pemilik = $service->company?->name ?? '-';
+            $tandaSelar = ($service->ship?->size ? $service->ship->size . ' ' : '') . 'No. ' . ($service->ship?->book_no ?? '-');
+            $tanggal = $service->observation_date ? \Carbon\Carbon::parse($service->observation_date)->translatedFormat('d F Y') : '-';
+            $temuan = $service->indikasi_pelanggaran ?? $service->description ?? '-';
+
+            $msg = "PEMBERITAHUAN HASIL PENGAWASAN\n\nSalam\n\nSehubungan dengan pelanggaran yang dilakukan oleh:\nNama Kapal: {$kapal}\nNama Pemilik: {$pemilik}\nTanda Selar: {$tandaSelar}\nBerdasarkan hasil pengawasan Kapal Pengawas \nTanggal pengawasan: {$tanggal}\nHasil/temuan: {$temuan}\n\nDalam rangka penanganan pelanggaran ini, mohon dapat melakukan klarifikasi melalui link berikut ini:\n{$url}\n\nLalu masukkan Kode Unik berikut:\n*{$service->unique_code}*";
 
             try {
                 $response = \Illuminate\Support\Facades\Http::withHeaders([

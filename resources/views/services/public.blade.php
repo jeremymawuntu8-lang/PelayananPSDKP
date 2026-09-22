@@ -219,8 +219,8 @@
 <body>
 
 <div class="premium-header">
-    <img src="{{ asset('images/logo.png') }}" alt="Logo PSDKP">
-    <h3>PSDKP Pelayanan</h3>
+    <img src="{{ asset('images/logo.png') }}" alt="Logo PSDKP" style="filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));">
+    <h3>SIKAP PSDKP</h3>
     <p class="mb-0"><i class="fas fa-ship me-2"></i>{{ $service->ship->name ?? 'Kapal Tidak Diketahui' }}</p>
 </div>
 

@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Dashboard') — {{ config('app.name', 'PSDKP Pelayanan') }}</title>
+    <title>@yield('title', 'Dashboard') — {{ config('app.name', 'SIKAP PSDKP') }}</title>
 
     {{-- CSS Libraries --}}
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/admin-lte@4.0.0-beta3/dist/css/adminlte.min.css">
@@ -65,9 +65,9 @@
     <aside class="app-sidebar shadow-lg" data-bs-theme="dark">
         <div class="sidebar-brand">
             <a href="{{ route('dashboard') }}" class="brand-link d-flex align-items-center text-decoration-none">
-                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="brand-image me-2">
+                <img src="{{ asset('images/logo.png') }}" alt="Logo" class="brand-image me-2" style="filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));">
                 <span class="brand-text text-white text-nowrap">
-                    <strong>PSDKP</strong> <span style="font-size: 0.9em; opacity: 0.9;">Pelayanan</span>
+                    <strong>SIKAP</strong> <span style="font-size: 0.9em; opacity: 0.9;">PSDKP</span>
                 </span>
             </a>
         </div>

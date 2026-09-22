@@ -38,7 +38,14 @@ class ServiceRequest extends Model
         $phone = preg_replace('/[^0-9]/', '', $this->company->phone);
         if (str_starts_with($phone, '0')) $phone = '62' . substr($phone, 1);
         $url = url('/klaim');
-        $msg = urlencode("Yth. {$this->company->name},\n\nTerdapat pemberitahuan/pelayanan PSDKP baru untuk kapal Anda.\n\nSilakan kunjungi sistem kami di:\n{$url}\n\nLalu masukkan Kode Unik berikut untuk membuka dokumen Anda:\n*{$this->unique_code}*\n\nTerima kasih,\nPSDKP Pelayanan");
+        $kapal = $this->ship?->name ?? '-';
+        $pemilik = $this->company?->name ?? '-';
+        $tandaSelar = ($this->ship?->size ? $this->ship->size . ' ' : '') . 'No. ' . ($this->ship?->book_no ?? '-');
+        $tanggal = $this->observation_date ? \Carbon\Carbon::parse($this->observation_date)->translatedFormat('d F Y') : '-';
+        $temuan = $this->indikasi_pelanggaran ?? $this->description ?? '-';
+
+        $msgRaw = "PEMBERITAHUAN HASIL PENGAWASAN\n\nSalam\n\nSehubungan dengan pelanggaran yang dilakukan oleh:\nNama Kapal: {$kapal}\nNama Pemilik: {$pemilik}\nTanda Selar: {$tandaSelar}\nBerdasarkan hasil pengawasan Kapal Pengawas \nTanggal pengawasan: {$tanggal}\nHasil/temuan: {$temuan}\n\nDalam rangka penanganan pelanggaran ini, mohon dapat melakukan klarifikasi melalui link berikut ini:\n{$url}\n\nLalu masukkan Kode Unik berikut:\n*{$this->unique_code}*";
+        $msg = urlencode($msgRaw);
         return "https://wa.me/{$phone}?text={$msg}";
     }
 }

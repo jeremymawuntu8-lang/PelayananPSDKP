@@ -64,17 +64,17 @@
                     <div class="col-md-5 login-side d-none d-md-flex text-center">
                         <div class="login-side-content">
                             <div class="mb-4">
-                                <img src="{{ asset('images/logo.png') }}" alt="Logo PSDKP" class="img-fluid" style="max-height: 130px; filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));">
+                                <img src="{{ asset('images/logo.png') }}" alt="Logo PSDKP" class="img-fluid" style="max-height: 130px; filter: drop-shadow(0 0 15px rgba(255, 255, 255, 1));">
                             </div>
-                            <h3 class="fw-bold mb-3" style="letter-spacing: -0.02em;">PSDKP Pelayanan</h3>
+                            <h3 class="fw-bold mb-3" style="letter-spacing: -0.02em;">SIKAP PSDKP</h3>
                             <p class="mb-0 opacity-75 text-sm" style="line-height: 1.6;">Sistem Informasi Pelayanan Pengawasan Sumber Daya Kelautan dan Perikanan.</p>
                         </div>
                     </div>
                     
                     <div class="col-md-7 p-4 p-md-5 p-xl-5 d-flex flex-column justify-content-center">
                         <div class="mobile-logo d-none">
-                            <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 60px;">
-                            <h4 class="fw-bold mt-2 mb-0" style="color: var(--ppsdk-primary);">PSDKP Pelayanan</h4>
+                            <img src="{{ asset('images/logo.png') }}" alt="Logo" style="height: 60px; filter: drop-shadow(0 0 10px rgba(255, 255, 255, 1));">
+                            <h4 class="fw-bold mt-2 mb-0" style="color: var(--ppsdk-primary);">SIKAP PSDKP</h4>
                         </div>
 
                         <div class="mb-4 text-center text-md-start">
