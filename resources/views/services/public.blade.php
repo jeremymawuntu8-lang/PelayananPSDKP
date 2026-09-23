@@ -328,7 +328,19 @@
             </div>
             <div class="col-6 col-md-6 mt-2">
                 <div class="info-label">UPT Terdekat</div>
-                <div class="info-value">{{ $service->upt_terdekat ?? '-' }}</div>
+                <div class="info-value">
+                    {{ $service->upt_terdekat ?? '-' }}
+                    @php
+                        $uptMaps = [
+                            'Bitung' => 'https://maps.app.goo.gl/ZxwduNteqVcL12Th6?g_st=aw',
+                        ];
+                    @endphp
+                    @if($service->upt_terdekat && isset($uptMaps[$service->upt_terdekat]))
+                        <a href="{{ $uptMaps[$service->upt_terdekat] }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2" style="font-size: 0.75rem; padding: 0.2rem 0.5rem; border-radius: 0.5rem;">
+                            <i class="fas fa-map-marker-alt me-1"></i>Lihat Lokasi
+                        </a>
+                    @endif
+                </div>
             </div>
         </div>
     </div>

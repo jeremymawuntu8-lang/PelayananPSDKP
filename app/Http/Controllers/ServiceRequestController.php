@@ -202,7 +202,15 @@ class ServiceRequestController extends Controller
             $tanggal = $service->observation_date ? \Carbon\Carbon::parse($service->observation_date)->translatedFormat('d F Y') : '-';
             $temuan = $service->indikasi_pelanggaran ?? $service->description ?? '-';
 
-            $msg = "PEMBERITAHUAN HASIL PENGAWASAN\n\nSalam\n\nSehubungan dengan pelanggaran yang dilakukan oleh:\nNama Kapal: {$kapal}\nNama Pemilik: {$pemilik}\nTanda Selar: {$tandaSelar}\nBerdasarkan hasil pengawasan Kapal Pengawas \nTanggal pengawasan: {$tanggal}\nHasil/temuan: {$temuan}\n\nDalam rangka penanganan pelanggaran ini, mohon dapat melakukan klarifikasi melalui link berikut ini:\n{$url}\n\nLalu masukkan Kode Unik berikut:\n*{$service->unique_code}*";
+            $uptMapsLinks = [
+                'Bitung' => 'https://maps.app.goo.gl/ZxwduNteqVcL12Th6?g_st=aw',
+            ];
+            $mapsLine = '';
+            if ($service->upt_terdekat && isset($uptMapsLinks[$service->upt_terdekat])) {
+                $mapsLine = "\n\nLokasi Pangkalan PSDKP {$service->upt_terdekat}:\n{$uptMapsLinks[$service->upt_terdekat]}";
+            }
+
+            $msg = "PEMBERITAHUAN HASIL PENGAWASAN\n\nSalam\n\nSehubungan dengan pelanggaran yang dilakukan oleh:\nNama Kapal: {$kapal}\nNama Pemilik: {$pemilik}\nTanda Selar: {$tandaSelar}\nBerdasarkan hasil pengawasan Kapal Pengawas \nTanggal pengawasan: {$tanggal}\nHasil/temuan: {$temuan}\n\nDalam rangka penanganan pelanggaran ini, mohon dapat melakukan klarifikasi melalui link berikut ini:\n{$url}\n\nLalu masukkan Kode Unik berikut:\n*{$service->unique_code}*{$mapsLine}";
 
             try {
                 $response = \Illuminate\Support\Facades\Http::withHeaders([

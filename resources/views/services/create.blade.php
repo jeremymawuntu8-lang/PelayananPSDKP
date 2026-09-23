@@ -202,7 +202,10 @@
                         </div>
                         <div class="col-md-4">
                             <label class="form-label">UPT Terdekat Posisi Kapal</label>
-                            <input type="text" name="upt_terdekat" class="form-control" value="{{ old('upt_terdekat') }}">
+                            <select name="upt_terdekat" class="form-select">
+                                <option value="">-- Pilih UPT --</option>
+                                <option value="Bitung" {{ old('upt_terdekat') == 'Bitung' ? 'selected' : '' }}>Bitung</option>
+                            </select>
                         </div>
                     </div>
                 </div>

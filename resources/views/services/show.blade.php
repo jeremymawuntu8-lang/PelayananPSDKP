@@ -165,7 +165,19 @@
                 </div>
                 <div class="detail-row">
                     <div class="detail-label">UPT Terdekat</div>
-                    <div class="detail-value">{{ $service->upt_terdekat ?? '-' }}</div>
+                    <div class="detail-value">
+                        {{ $service->upt_terdekat ?? '-' }}
+                        @php
+                            $uptMaps = [
+                                'Bitung' => 'https://maps.app.goo.gl/ZxwduNteqVcL12Th6?g_st=aw',
+                            ];
+                        @endphp
+                        @if($service->upt_terdekat && isset($uptMaps[$service->upt_terdekat]))
+                            <a href="{{ $uptMaps[$service->upt_terdekat] }}" target="_blank" class="btn btn-sm btn-outline-primary ms-2" style="font-size: 0.75rem;">
+                                <i class="fas fa-map-marker-alt me-1"></i>Lihat Maps
+                            </a>
+                        @endif
+                    </div>
                 </div>
             </div>
         </div>
