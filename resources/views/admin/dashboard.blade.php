@@ -85,11 +85,14 @@
                             <div class="fs-sm text-muted"><i class="fas fa-ship me-1"></i> {{ $arr->ship->name ?? '-' }}</div>
                         </td>
                         <td>
-                            @if($arr->attendance_type == 'pemilik')
+                            @php $arrAttendances = explode(',', $arr->attendance_type); @endphp
+                            @if(in_array('pemilik', $arrAttendances))
                                 <span class="badge bg-success bg-opacity-10 text-success"><i class="fas fa-user-tie me-1"></i> Pemilik</span>
-                            @elseif($arr->attendance_type == 'nahkoda')
+                            @endif
+                            @if(in_array('nahkoda', $arrAttendances))
                                 <span class="badge" style="background: rgba(2, 119, 189, 0.1); color: #0277BD; border: 1px solid rgba(2, 119, 189, 0.2);"><i class="fas fa-ship me-1"></i> Nahkoda</span>
-                            @else
+                            @endif
+                            @if(in_array('diwakilkan', $arrAttendances))
                                 <span class="badge bg-info bg-opacity-10 text-info"><i class="fas fa-users me-1"></i> Diwakilkan</span>
                                 <div class="fs-sm mt-1 text-muted">{{ $arr->attendance_notes }}</div>
                             @endif

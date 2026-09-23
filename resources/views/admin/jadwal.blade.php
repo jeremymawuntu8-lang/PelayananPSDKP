@@ -471,21 +471,24 @@
                     </div>
                     
                     <div class="d-flex align-items-center flex-wrap gap-2">
-                        @if($s->attendance_type == 'pemilik')
+                        @php $attendances = explode(',', $s->attendance_type); @endphp
+                        @if(in_array('pemilik', $attendances))
                             <span class="attendance-badge sendiri">
                                 <i class="fas fa-user-tie"></i> Pemilik
                             </span>
-                        @elseif($s->attendance_type == 'nahkoda')
+                        @endif
+                        @if(in_array('nahkoda', $attendances))
                             <span class="attendance-badge" style="background: rgba(2, 119, 189, 0.1); color: #0277BD; border: 1px solid rgba(2, 119, 189, 0.2);">
                                 <i class="fas fa-ship"></i> Nahkoda
                             </span>
-                        @else
+                        @endif
+                        @if(in_array('diwakilkan', $attendances))
                             <span class="attendance-badge diwakilkan">
                                 <i class="fas fa-users"></i> Diwakilkan
                             </span>
                         @endif
                     </div>
-                    @if($s->attendance_type == 'diwakilkan' && $s->attendance_notes)
+                    @if(in_array('diwakilkan', $attendances) && $s->attendance_notes)
                         <div class="delegate-note">→ {{ $s->attendance_notes }}</div>
                     @endif
 

@@ -370,21 +370,25 @@
                 </div>
 
                 <div class="mb-4">
-                    <label class="form-label mb-2">Tipe Kehadiran <span class="text-danger">*</span></label>
+                    <label class="form-label mb-2">Tipe Kehadiran (Bisa pilih maksimal 2) <span class="text-danger">*</span></label>
                     <div class="attendance-options">
+                        @php $selectedAttendance = old('attendance_type', $service->attendance_type ? explode(',', $service->attendance_type) : []); @endphp
                         <div class="radio-card">
-                            <input type="radio" name="attendance_type" id="hadir_pemilik" value="pemilik" {{ old('attendance_type', $service->attendance_type) == 'pemilik' ? 'checked' : '' }} required>
+                            <input type="checkbox" name="attendance_type[]" id="hadir_pemilik" value="pemilik" {{ in_array('pemilik', $selectedAttendance) ? 'checked' : '' }}>
                             <label for="hadir_pemilik"><i class="fas fa-user-tie"></i> Pemilik</label>
                         </div>
                         <div class="radio-card">
-                            <input type="radio" name="attendance_type" id="hadir_nahkoda" value="nahkoda" {{ old('attendance_type', $service->attendance_type) == 'nahkoda' ? 'checked' : '' }} required>
+                            <input type="checkbox" name="attendance_type[]" id="hadir_nahkoda" value="nahkoda" {{ in_array('nahkoda', $selectedAttendance) ? 'checked' : '' }}>
                             <label for="hadir_nahkoda"><i class="fas fa-ship"></i> Nahkoda</label>
                         </div>
                         <div class="radio-card">
-                            <input type="radio" name="attendance_type" id="diwakilkan" value="diwakilkan" {{ old('attendance_type', $service->attendance_type) == 'diwakilkan' ? 'checked' : '' }} required>
+                            <input type="checkbox" name="attendance_type[]" id="diwakilkan" value="diwakilkan" {{ in_array('diwakilkan', $selectedAttendance) ? 'checked' : '' }}>
                             <label for="diwakilkan"><i class="fas fa-users"></i> Diwakilkan</label>
                         </div>
                     </div>
+                    @error('attendance_type')
+                        <div class="text-danger fs-sm mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="mb-4" id="keterangan_kehadiran_container" style="display: none;">
@@ -464,15 +468,16 @@
             dateInput.dispatchEvent(new Event('change'));
         }
 
-        const radioPemilik = document.getElementById('hadir_pemilik');
-        const radioNahkoda = document.getElementById('hadir_nahkoda');
-        const radioDiwakilkan = document.getElementById('diwakilkan');
+        const checkboxPemilik = document.getElementById('hadir_pemilik');
+        const checkboxNahkoda = document.getElementById('hadir_nahkoda');
+        const checkboxDiwakilkan = document.getElementById('diwakilkan');
         const ketContainer = document.getElementById('keterangan_kehadiran_container');
         const ketInput = document.getElementById('attendance_notes');
         const docSuratKuasa = document.getElementById('doc_surat_kuasa');
+        const attendanceCheckboxes = document.querySelectorAll('input[name="attendance_type[]"]');
 
         function toggleKeterangan() {
-            if (radioDiwakilkan.checked) {
+            if (checkboxDiwakilkan && checkboxDiwakilkan.checked) {
                 ketContainer.style.display = 'block';
                 ketInput.setAttribute('required', 'required');
                 docSuratKuasa.setAttribute('required', 'required');
@@ -483,11 +488,18 @@
             }
         }
 
-        radioPemilik?.addEventListener('change', toggleKeterangan);
-        radioNahkoda?.addEventListener('change', toggleKeterangan);
-        radioDiwakilkan?.addEventListener('change', toggleKeterangan);
+        attendanceCheckboxes.forEach(cb => {
+            cb.addEventListener('change', function() {
+                const checkedCount = document.querySelectorAll('input[name="attendance_type[]"]:checked').length;
+                if (checkedCount > 2) {
+                    this.checked = false;
+                    alert('Maksimal 2 pilihan kehadiran yang dapat dipilih.');
+                }
+                toggleKeterangan();
+            });
+        });
         
-        if (radioDiwakilkan?.checked) {
+        if (checkboxDiwakilkan?.checked) {
             toggleKeterangan();
         }
     });

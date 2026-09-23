@@ -267,10 +267,25 @@ class ServiceRequestController extends Controller
             'arrival_date' => 'required|date',
             'arrival_day' => 'required|string',
             'arrival_time' => 'required|in:09:00,11:00,14:00',
-            'attendance_type' => 'required|in:pemilik,nahkoda,diwakilkan',
-            'attendance_notes' => 'required_if:attendance_type,diwakilkan|nullable|string',
+            'attendance_type' => 'required|array|min:1|max:2',
+            'attendance_type.*' => 'in:pemilik,nahkoda,diwakilkan',
+            'attendance_notes' => [
+                'nullable', 'string',
+                function ($attribute, $value, $fail) use ($request) {
+                    if (is_array($request->attendance_type) && in_array('diwakilkan', $request->attendance_type) && empty($value)) {
+                        $fail('Keterangan perwakilan wajib diisi.');
+                    }
+                }
+            ],
             'response' => 'nullable|string',
-            'doc_surat_kuasa' => 'required_if:attendance_type,diwakilkan|nullable|file|mimes:pdf,png,jpg,jpeg|max:10240',
+            'doc_surat_kuasa' => [
+                'nullable', 'file', 'mimes:pdf,png,jpg,jpeg', 'max:10240',
+                function ($attribute, $value, $fail) use ($request) {
+                    if (is_array($request->attendance_type) && in_array('diwakilkan', $request->attendance_type) && !$request->hasFile($attribute)) {
+                        $fail('Surat kuasa wajib diunggah.');
+                    }
+                }
+            ],
             'doc_keterangan_dokter' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:10240',
             'doc_kwitansi' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:10240',
             'doc_cuaca' => 'nullable|file|mimes:png,jpg,jpeg|max:10240',
@@ -281,7 +296,7 @@ class ServiceRequestController extends Controller
             'arrival_date' => $validated['arrival_date'],
             'arrival_day' => $validated['arrival_day'],
             'arrival_time' => $validated['arrival_time'],
-            'attendance_type' => $validated['attendance_type'],
+            'attendance_type' => implode(',', $validated['attendance_type']),
             'attendance_notes' => $validated['attendance_notes'] ?? null,
             'status' => 'submitted',
             'responded_at' => now(),
