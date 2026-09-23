@@ -201,7 +201,7 @@
                             <input type="number" name="frekuensi_pelanggaran" class="form-control" value="{{ old('frekuensi_pelanggaran') }}">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">UPT Terdekat Posisi Kapal</label>
+                            <label class="form-label">Pilih UPT</label>
                             <select name="upt_terdekat" class="form-select">
                                 <option value="">-- Pilih UPT --</option>
                                 <option value="Bitung" {{ old('upt_terdekat') == 'Bitung' ? 'selected' : '' }}>Bitung</option>
