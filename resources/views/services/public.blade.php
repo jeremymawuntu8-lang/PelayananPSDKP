@@ -541,17 +541,46 @@
         
         const days = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
 
+        const bookedSlots = @json($bookedSlots ?? []);
+        const timeSelect = document.querySelector('select[name="arrival_time"]');
+
         dateInput?.addEventListener('change', function() {
             if (this.value) {
                 const date = new Date(this.value);
                 const dayName = days[date.getDay()];
                 dayInput.value = dayName;
+                
+                // Check availability
+                if (timeSelect) {
+                    const selectedDateStr = this.value; // YYYY-MM-DD
+                    const slotsForDate = bookedSlots[selectedDateStr] || {};
+                    
+                    Array.from(timeSelect.options).forEach(option => {
+                        if (option.value !== "") {
+                            const count = slotsForDate[option.value] || 0;
+                            if (count >= 3) {
+                                option.disabled = true;
+                                if (!option.text.includes('(Penuh)')) {
+                                    option.text = option.value + ' (Penuh)';
+                                }
+                            } else {
+                                option.disabled = false;
+                                option.text = option.value;
+                            }
+                        }
+                    });
+                    
+                    // If currently selected option is disabled, reset selection
+                    if (timeSelect.options[timeSelect.selectedIndex]?.disabled) {
+                        timeSelect.value = '';
+                    }
+                }
             } else {
                 dayInput.value = '';
             }
         });
         
-        if (dateInput?.value && !dayInput?.value) {
+        if (dateInput?.value) {
             dateInput.dispatchEvent(new Event('change'));
         }
 

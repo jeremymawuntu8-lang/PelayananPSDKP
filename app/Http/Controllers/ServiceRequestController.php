@@ -260,7 +260,27 @@ class ServiceRequestController extends Controller
             return view('services.public_closed');
         }
         
-        return view('services.public', compact('service'));
+        // Get booked slots for future dates
+        $bookedSlotsRaw = ServiceRequest::whereNotNull('arrival_date')
+            ->whereNotNull('arrival_time')
+            ->where('status', '!=', 'cancelled')
+            ->select('arrival_date', 'arrival_time', \DB::raw('count(*) as count'))
+            ->groupBy('arrival_date', 'arrival_time')
+            ->get();
+            
+        $bookedSlots = [];
+        foreach ($bookedSlotsRaw as $slot) {
+            $date = $slot->arrival_date;
+            // Handle if arrival_date is Carbon instance or string
+            if ($date instanceof \Carbon\Carbon) {
+                $dateStr = $date->format('Y-m-d');
+            } else {
+                $dateStr = date('Y-m-d', strtotime($date));
+            }
+            $bookedSlots[$dateStr][$slot->arrival_time] = $slot->count;
+        }
+        
+        return view('services.public', compact('service', 'bookedSlots'));
     }
 
     public function publicStore(Request $request, $token)
@@ -274,7 +294,21 @@ class ServiceRequestController extends Controller
         $validated = $request->validate([
             'arrival_date' => 'required|date',
             'arrival_day' => 'required|string',
-            'arrival_time' => 'required|in:09:00,11:00,14:00',
+            'arrival_time' => [
+                'required', 'in:09:00,11:00,14:00',
+                function ($attribute, $value, $fail) use ($request) {
+                    $date = $request->arrival_date;
+                    if ($date) {
+                        $count = \App\Models\ServiceRequest::whereDate('arrival_date', clone \Carbon\Carbon::parse($date))
+                            ->where('arrival_time', $value)
+                            ->where('status', '!=', 'cancelled')
+                            ->count();
+                        if ($count >= 3) {
+                            $fail('Jam kedatangan ' . $value . ' pada tanggal ini sudah penuh (maksimal 3 kapal). Silakan pilih jam atau tanggal lain.');
+                        }
+                    }
+                }
+            ],
             'attendance_type' => 'required|array|min:1|max:2',
             'attendance_type.*' => 'in:pemilik,nahkoda,diwakilkan',
             'attendance_notes' => [
