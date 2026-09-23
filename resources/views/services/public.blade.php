@@ -164,6 +164,46 @@
             }
         }
         
+        /* Violation Reasons */
+        .violation-reasons-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .violation-check-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            background: white;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        .violation-check-item:hover {
+            border-color: var(--primary-light);
+            background: rgba(10, 61, 107, 0.02);
+        }
+        .violation-check-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: var(--primary);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .violation-check-item label {
+            font-weight: 500;
+            font-size: 0.95rem;
+            color: var(--text-dark);
+            cursor: pointer;
+            margin: 0;
+        }
+        .violation-check-item:has(input:checked) {
+            border-color: var(--primary);
+            background: rgba(10, 61, 107, 0.04);
+        }
+
         /* File Upload */
         .file-upload-box {
             background: #F8FAFC;
@@ -416,28 +456,53 @@
 
                 <div class="mb-4">
                     <label class="form-label d-flex align-items-center gap-2 mb-3">
-                        <i class="fas fa-cloud-upload-alt text-primary"></i> Unggah Dokumen (Opsional)
+                        <i class="fas fa-exclamation-triangle text-warning"></i> Alasan Utama Melanggar <span class="text-danger">*</span>
                     </label>
-                    <div class="row g-3">
-                        <div class="col-12 col-md-6">
-                            <div class="file-upload-box">
-                                <label class="form-label fs-sm text-muted mb-2"><i class="fas fa-user-md me-1"></i> Suket Dokter (.pdf/.png/.jpg)</label>
-                                <input type="file" name="doc_keterangan_dokter" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
+                    @php $selectedReasons = old('violation_reasons', $service->violation_reasons ? explode(',', $service->violation_reasons) : []); @endphp
+                    <div class="violation-reasons-list">
+                        @php
+                            $reasons = [
+                                'ketidaktahuan_aturan' => 'Ketidaktahuan aturan',
+                                'ketidaktahuan_batas_wilayah' => 'Ketidaktahuan atas batas wilayah',
+                                'cuaca_buruk' => 'Cuaca buruk',
+                                'mengantar_logistik' => 'Mengantar Logistik',
+                                'kerusakan_kapal' => 'Kerusakan kapal atau bagian kapal',
+                                'abk_sakit' => 'ABK sakit',
+                                'kondisi_darurat' => 'Kondisi darurat',
+                                'lainnya' => 'Lainnya',
+                            ];
+                        @endphp
+                        @foreach($reasons as $key => $label)
+                            <div class="violation-check-item">
+                                <input type="checkbox" name="violation_reasons[]" id="reason_{{ $key }}" value="{{ $key }}" {{ in_array($key, $selectedReasons) ? 'checked' : '' }}>
+                                <label for="reason_{{ $key }}">{{ $label }}</label>
                             </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="file-upload-box">
-                                <label class="form-label fs-sm text-muted mb-2"><i class="fas fa-receipt me-1"></i> Kwitansi Logistik (.pdf/.png/.jpg)</label>
-                                <input type="file" name="doc_kwitansi" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
-                            </div>
-                        </div>
-                        <div class="col-12 col-md-6">
-                            <div class="file-upload-box">
-                                <label class="form-label fs-sm text-muted mb-2"><i class="fas fa-cloud-sun-rain me-1"></i> Cuaca/BMKG (.png/.jpg)</label>
-                                <input type="file" name="doc_cuaca" class="form-control form-control-sm" accept=".png,.jpg,.jpeg">
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
+                    @error('violation_reasons')
+                        <div class="text-danger fs-sm mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4" id="violation_other_container" style="display: none;">
+                    <label class="form-label">Keterangan Lainnya <span class="text-danger">*</span></label>
+                    <input type="text" name="violation_other" id="violation_other" class="form-control" value="{{ old('violation_other', $service->violation_other) }}" placeholder="Jelaskan alasan lainnya...">
+                    @error('violation_other')
+                        <div class="text-danger fs-sm mt-1">{{ $message }}</div>
+                    @enderror
+                </div>
+
+                <div class="mb-4">
+                    <label class="form-label d-flex align-items-center gap-2 mb-2">
+                        <i class="fas fa-cloud-upload-alt text-primary"></i> Unggah Bukti Dukung <span class="text-danger">*</span>
+                    </label>
+                    <p class="text-muted fs-sm mb-2">Unggah bukti pendukung sesuai alasan yang dipilih (foto, surat dokter, kwitansi, dll)</p>
+                    <div class="file-upload-box">
+                        <input type="file" name="doc_bukti_dukung" id="doc_bukti_dukung" class="form-control form-control-sm" accept=".pdf,.png,.jpg,.jpeg">
+                    </div>
+                    @error('doc_bukti_dukung')
+                        <div class="text-danger fs-sm mt-1">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="mb-4">
@@ -512,6 +577,26 @@
         if (checkboxDiwakilkan?.checked) {
             toggleKeterangan();
         }
+
+        // Violation Reasons - toggle "Lainnya" input
+        const reasonLainnya = document.getElementById('reason_lainnya');
+        const violationOtherContainer = document.getElementById('violation_other_container');
+        const violationOtherInput = document.getElementById('violation_other');
+
+        function toggleViolationOther() {
+            if (reasonLainnya && reasonLainnya.checked) {
+                violationOtherContainer.style.display = 'block';
+                violationOtherInput.setAttribute('required', 'required');
+            } else {
+                violationOtherContainer.style.display = 'none';
+                violationOtherInput.removeAttribute('required');
+                violationOtherInput.value = '';
+            }
+        }
+
+        reasonLainnya?.addEventListener('change', toggleViolationOther);
+        // Run on load in case of old() repopulation
+        toggleViolationOther();
     });
 </script>
 </body>

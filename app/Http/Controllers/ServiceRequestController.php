@@ -286,9 +286,17 @@ class ServiceRequestController extends Controller
                     }
                 }
             ],
-            'doc_keterangan_dokter' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:10240',
-            'doc_kwitansi' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:10240',
-            'doc_cuaca' => 'nullable|file|mimes:png,jpg,jpeg|max:10240',
+            'violation_reasons' => 'required|array|min:1',
+            'violation_reasons.*' => 'in:ketidaktahuan_aturan,ketidaktahuan_batas_wilayah,cuaca_buruk,mengantar_logistik,kerusakan_kapal,abk_sakit,kondisi_darurat,lainnya',
+            'violation_other' => [
+                'nullable', 'string',
+                function ($attribute, $value, $fail) use ($request) {
+                    if (is_array($request->violation_reasons) && in_array('lainnya', $request->violation_reasons) && empty($value)) {
+                        $fail('Keterangan lainnya wajib diisi.');
+                    }
+                }
+            ],
+            'doc_bukti_dukung' => 'required|file|mimes:pdf,png,jpg,jpeg|max:10240',
         ]);
 
         $service->update([
@@ -298,15 +306,15 @@ class ServiceRequestController extends Controller
             'arrival_time' => $validated['arrival_time'],
             'attendance_type' => implode(',', $validated['attendance_type']),
             'attendance_notes' => $validated['attendance_notes'] ?? null,
+            'violation_reasons' => implode(',', $validated['violation_reasons']),
+            'violation_other' => $validated['violation_other'] ?? null,
             'status' => 'submitted',
             'responded_at' => now(),
         ]);
 
         $docTypes = [
             'doc_surat_kuasa' => 'Surat Kuasa',
-            'doc_keterangan_dokter' => 'Surat Keterangan Dokter',
-            'doc_kwitansi' => 'Kwitansi Logistik',
-            'doc_cuaca' => 'Dokumentasi Cuaca',
+            'doc_bukti_dukung' => 'Bukti Dukung',
         ];
 
         foreach ($docTypes as $inputName => $typeLabel) {

@@ -492,6 +492,32 @@
                         <div class="delegate-note">→ {{ $s->attendance_notes }}</div>
                     @endif
 
+                    @if($s->violation_reasons)
+                        <div class="d-flex flex-wrap gap-1 mt-1">
+                            @php
+                                $reasonLabels = [
+                                    'ketidaktahuan_aturan' => 'Ketidaktahuan aturan',
+                                    'ketidaktahuan_batas_wilayah' => 'Ketidaktahuan batas wilayah',
+                                    'cuaca_buruk' => 'Cuaca buruk',
+                                    'mengantar_logistik' => 'Mengantar Logistik',
+                                    'kerusakan_kapal' => 'Kerusakan kapal',
+                                    'abk_sakit' => 'ABK sakit',
+                                    'kondisi_darurat' => 'Kondisi darurat',
+                                    'lainnya' => 'Lainnya',
+                                ];
+                                $vReasons = explode(',', $s->violation_reasons);
+                            @endphp
+                            @foreach($vReasons as $vr)
+                                <span class="badge bg-warning bg-opacity-10 text-warning" style="font-size: 0.7rem;">
+                                    <i class="fas fa-exclamation-circle me-1"></i>{{ $reasonLabels[$vr] ?? $vr }}
+                                </span>
+                            @endforeach
+                            @if($s->violation_other)
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary" style="font-size: 0.7rem;">{{ $s->violation_other }}</span>
+                            @endif
+                        </div>
+                    @endif
+
                     @if($s->documents->count() > 0)
                     <div class="doc-tags">
                         @foreach($s->documents as $doc)
