@@ -116,14 +116,16 @@
             box-shadow: 0 0 0 4px rgba(10, 61, 107, 0.1);
         }
         
-        /* Custom Radios for Kehadiran */
+        /* Custom Checkboxes for Kehadiran */
         .attendance-options {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
         }
         .radio-card {
             position: relative;
+            flex: 1 1 calc(33.333% - 0.75rem);
+            min-width: 120px;
         }
         .radio-card input {
             position: absolute;
@@ -136,14 +138,17 @@
             justify-content: center;
             gap: 0.5rem;
             width: 100%;
-            padding: 1rem;
+            padding: 0.85rem 0.5rem;
             background: white;
             border: 2px solid #E2E8F0;
             border-radius: 0.75rem;
             cursor: pointer;
             font-weight: 700;
+            font-size: 0.85rem;
             color: var(--text-muted);
             transition: all 0.2s ease;
+            text-align: center;
+            white-space: nowrap;
         }
         .radio-card input:checked + label {
             border-color: var(--primary);
@@ -152,6 +157,11 @@
         }
         .radio-card input:checked + label i {
             color: var(--primary);
+        }
+        @media (max-width: 480px) {
+            .radio-card {
+                flex: 1 1 100%;
+            }
         }
         
         /* File Upload */
