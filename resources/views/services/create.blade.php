@@ -47,7 +47,9 @@
                 <div class="section-body">
                     <div class="row g-3">
                         <div class="col-md-4">
-                            <label class="form-label">Pemilik Kapal / Company <span class="text-danger">*</span></label>
+                            <label class="form-label">Pemilik Kapal / Company <span class="text-danger">*</span>
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Nama Pemilik</span>
+                            </label>
                             <input type="text" name="company_name" class="form-control" list="company_list" value="{{ old('company_name') }}" placeholder="Ketik nama pemilik..." required>
                             <datalist id="company_list">
                                 @foreach($companies as $c)
@@ -60,7 +62,9 @@
                             <input type="text" name="company_phone" class="form-control" value="{{ old('company_phone') }}" placeholder="Contoh: 08123456789" required>
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Nama Kapal</label>
+                            <label class="form-label">Nama Kapal
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Nama Kapal</span>
+                            </label>
                             <input type="text" name="ship_name" class="form-control" list="ship_list" value="{{ old('ship_name') }}" placeholder="Ketik nama kapal...">
                             <datalist id="ship_list">
                                 @foreach($ships as $s)
@@ -73,15 +77,21 @@
                             <input type="text" name="transmitter_no" class="form-control" value="{{ old('transmitter_no') }}">
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">No Buku Kapal</label>
+                            <label class="form-label">No Buku Kapal
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Tanda Selar</span>
+                            </label>
                             <input type="text" name="book_no" class="form-control" value="{{ old('book_no') }}">
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Jenis Alat Tangkap</label>
+                            <label class="form-label">Jenis Alat Tangkap
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Alat Tangkap</span>
+                            </label>
                             <input type="text" name="fishing_gear" class="form-control" value="{{ old('fishing_gear') }}">
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Ukuran (GT)</label>
+                            <label class="form-label">Ukuran (GT)
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Tanda Selar</span>
+                            </label>
                             <input type="text" name="size" class="form-control" value="{{ old('size') }}">
                         </div>
                     </div>
@@ -149,7 +159,9 @@
                             <input type="text" name="dpi" class="form-control" value="{{ old('dpi') }}">
                         </div>
                         <div class="col-md-3">
-                            <label class="form-label">Pelabuhan Pangkalan</label>
+                            <label class="form-label">Pelabuhan Pangkalan
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Tanda Selar</span>
+                            </label>
                             <input type="text" name="home_port" class="form-control" value="{{ old('home_port') }}">
                         </div>
                         <div class="col-md-3">
@@ -173,7 +185,9 @@
                 <div class="section-body">
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <label class="form-label">Indikasi Pelanggaran</label>
+                            <label class="form-label">Indikasi Pelanggaran
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Jenis Pelanggaran</span>
+                            </label>
                             <input type="text" name="indikasi_pelanggaran" class="form-control" value="{{ old('indikasi_pelanggaran') }}">
                         </div>
                         <div class="col-md-6">
@@ -201,11 +215,31 @@
                             <input type="number" name="frekuensi_pelanggaran" class="form-control" value="{{ old('frekuensi_pelanggaran') }}">
                         </div>
                         <div class="col-md-4">
-                            <label class="form-label">Pilih UPT</label>
+                            <label class="form-label">Pilih UPT
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Link Maps</span>
+                            </label>
                             <select name="upt_terdekat" class="form-select">
                                 <option value="">-- Pilih UPT --</option>
                                 <option value="Bitung" {{ old('upt_terdekat') == 'Bitung' ? 'selected' : '' }}>Bitung</option>
                             </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Hasil Pengawasan
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Hasil Pengawasan</span>
+                            </label>
+                            <select name="hasil_pengawasan" class="form-select">
+                                <option value="">-- Pilih --</option>
+                                <option value="Patroli Kapal Pengawas" {{ old('hasil_pengawasan') == 'Patroli Kapal Pengawas' ? 'selected' : '' }}>Patroli Kapal Pengawas</option>
+                                <option value="Patroli Udara" {{ old('hasil_pengawasan') == 'Patroli Udara' ? 'selected' : '' }}>Patroli Udara</option>
+                                <option value="Pengawasan Pelabuhan" {{ old('hasil_pengawasan') == 'Pengawasan Pelabuhan' ? 'selected' : '' }}>Pengawasan Pelabuhan</option>
+                                <option value="Laporan Masyarakat" {{ old('hasil_pengawasan') == 'Laporan Masyarakat' ? 'selected' : '' }}>Laporan Masyarakat</option>
+                            </select>
+                        </div>
+                        <div class="col-md-4">
+                            <label class="form-label">Tanggal Pengawasan
+                                <span class="badge" style="background-color:#25D366;font-size:0.65rem;"><i class="fab fa-whatsapp"></i> Tanggal Pengawasan</span>
+                            </label>
+                            <input type="date" name="observation_date" class="form-control" value="{{ old('observation_date') }}">
                         </div>
                     </div>
                 </div>

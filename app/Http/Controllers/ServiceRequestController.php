@@ -40,6 +40,7 @@ class ServiceRequestController extends Controller
             'mulai_melanggar' => 'nullable|date',
             'frekuensi_pelanggaran' => 'nullable|integer',
             'upt_terdekat' => 'nullable|string',
+            'hasil_pengawasan' => 'nullable|string',
             'observation_date' => 'nullable|date',
             'latitude' => 'nullable|numeric|between:-90,90',
             'longitude' => 'nullable|numeric|between:-180,180',
@@ -161,6 +162,7 @@ class ServiceRequestController extends Controller
             'mulai_melanggar' => $validated['mulai_melanggar'] ?? null,
             'frekuensi_pelanggaran' => $validated['frekuensi_pelanggaran'] ?? null,
             'upt_terdekat' => $validated['upt_terdekat'] ?? null,
+            'hasil_pengawasan' => $validated['hasil_pengawasan'] ?? null,
             'observation_date' => $validated['observation_date'] ?? null,
             'latitude' => $validated['latitude'] ?? null,
             'longitude' => $validated['longitude'] ?? null,
@@ -198,9 +200,14 @@ class ServiceRequestController extends Controller
             $url = url('/klaim');
             $kapal = $service->ship?->name ?? '-';
             $pemilik = $service->company?->name ?? '-';
-            $tandaSelar = ($service->ship?->size ? $service->ship->size . ' ' : '') . 'No. ' . ($service->ship?->book_no ?? '-');
+            $homePort = $service->ship?->home_port ?? '';
+            $size = $service->ship?->size ? 'GT.' . $service->ship->size : '';
+            $bookNo = $service->ship?->book_no ?? '-';
+            $tandaSelar = trim(($homePort ? $homePort . '/' : '') . $size) . ' No.' . $bookNo;
+            $alatTangkap = $service->ship?->fishing_gear ?? '-';
+            $hasilPengawasan = $service->hasil_pengawasan ?? '-';
             $tanggal = $service->observation_date ? \Carbon\Carbon::parse($service->observation_date)->translatedFormat('d F Y') : '-';
-            $temuan = $service->indikasi_pelanggaran ?? $service->description ?? '-';
+            $jenisPelanggaran = $service->indikasi_pelanggaran ?? $service->description ?? '-';
 
             $uptMapsLinks = [
                 'Bitung' => 'https://maps.app.goo.gl/ZxwduNteqVcL12Th6?g_st=aw',
@@ -210,7 +217,8 @@ class ServiceRequestController extends Controller
                 $mapsLine = "\n\nLokasi Pangkalan PSDKP {$service->upt_terdekat}:\n{$uptMapsLinks[$service->upt_terdekat]}";
             }
 
-            $msg = "PEMBERITAHUAN HASIL PENGAWASAN\n\nSalam\n\nSehubungan dengan pelanggaran yang dilakukan oleh:\nNama Kapal: {$kapal}\nNama Pemilik: {$pemilik}\nTanda Selar: {$tandaSelar}\nBerdasarkan hasil pengawasan Kapal Pengawas \nTanggal pengawasan: {$tanggal}\nHasil/temuan: {$temuan}\n\nDalam rangka penanganan pelanggaran ini, mohon dapat melakukan klarifikasi melalui link berikut ini:\n{$url}\n\nLalu masukkan Kode Unik berikut:\n*{$service->unique_code}*{$mapsLine}";
+            $msg = "PEMBERITAHUAN HASIL PENGAWASAN\n\nSalam\n\nSehubungan dengan pelanggaran yang dilakukan oleh:\nNama Kapal: {$kapal}\nNama Pemilik: {$pemilik}\nTanda Selar: {$tandaSelar}\nAlat Tangkap: {$alatTangkap}\n\nHasil Pengawasan : {$hasilPengawasan}\nTanggal Pengawasan : {$tanggal}\nJenis Pelanggaran : {$jenisPelanggaran}\n\nDalam rangka penanganan pelanggaran ini, mohon dapat melakukan klarifikasi melalui link berikut ini:\n{$url}\n\nLalu masukkan Kode Unik berikut:\n*{$service->unique_code}*{$mapsLine}";
+
 
             try {
                 $response = \Illuminate\Support\Facades\Http::withHeaders([

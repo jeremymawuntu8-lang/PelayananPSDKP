@@ -10,7 +10,7 @@ class ServiceRequest extends Model
         'token', 'company_id', 'ship_id', 'created_by', 'category', 'subject', 
         'description', 'analysis', 'indikasi', 'indikasi_pelanggaran', 'duga_langgar',
         'period_violation_start', 'period_violation_end', 'pelabuhan_keluar_terakhir',
-        'mulai_melanggar', 'frekuensi_pelanggaran', 'upt_terdekat', 'status', 
+        'mulai_melanggar', 'frekuensi_pelanggaran', 'upt_terdekat', 'hasil_pengawasan', 'status', 
         'observation_date', 'latitude', 'longitude', 'company_response', 'officer_response', 
         'submitted_at', 'responded_at', 'analyst', 'verificator', 'unit_kerja', 
         'lembar_indikasi', 'surat_analisis_nomor', 'surat_analisis_dokumen', 'skat_nomor', 'masa_berlaku',
@@ -40,11 +40,24 @@ class ServiceRequest extends Model
         $url = url('/klaim');
         $kapal = $this->ship?->name ?? '-';
         $pemilik = $this->company?->name ?? '-';
-        $tandaSelar = ($this->ship?->size ? $this->ship->size . ' ' : '') . 'No. ' . ($this->ship?->book_no ?? '-');
+        $homePort = $this->ship?->home_port ?? '';
+        $size = $this->ship?->size ? 'GT.' . $this->ship->size : '';
+        $bookNo = $this->ship?->book_no ?? '-';
+        $tandaSelar = trim(($homePort ? $homePort . '/' : '') . $size) . ' No.' . $bookNo;
+        $alatTangkap = $this->ship?->fishing_gear ?? '-';
+        $hasilPengawasan = $this->hasil_pengawasan ?? '-';
         $tanggal = $this->observation_date ? \Carbon\Carbon::parse($this->observation_date)->translatedFormat('d F Y') : '-';
-        $temuan = $this->indikasi_pelanggaran ?? $this->description ?? '-';
+        $jenispelanggaran = $this->indikasi_pelanggaran ?? $this->description ?? '-';
 
-        $msgRaw = "PEMBERITAHUAN HASIL PENGAWASAN\n\nSalam\n\nSehubungan dengan pelanggaran yang dilakukan oleh:\nNama Kapal: {$kapal}\nNama Pemilik: {$pemilik}\nTanda Selar: {$tandaSelar}\nBerdasarkan hasil pengawasan Kapal Pengawas \nTanggal pengawasan: {$tanggal}\nHasil/temuan: {$temuan}\n\nDalam rangka penanganan pelanggaran ini, mohon dapat melakukan klarifikasi melalui link berikut ini:\n{$url}\n\nLalu masukkan Kode Unik berikut:\n*{$this->unique_code}*";
+        $uptMapsLinks = [
+            'Bitung' => 'https://maps.app.goo.gl/ZxwduNteqVcL12Th6?g_st=aw',
+        ];
+        $mapsLine = '';
+        if ($this->upt_terdekat && isset($uptMapsLinks[$this->upt_terdekat])) {
+            $mapsLine = "\n\nLokasi Pangkalan PSDKP {$this->upt_terdekat}:\n{$uptMapsLinks[$this->upt_terdekat]}";
+        }
+
+        $msgRaw = "PEMBERITAHUAN HASIL PENGAWASAN\n\nSalam\n\nSehubungan dengan pelanggaran yang dilakukan oleh:\nNama Kapal: {$kapal}\nNama Pemilik: {$pemilik}\nTanda Selar: {$tandaSelar}\nAlat Tangkap: {$alatTangkap}\n\nHasil Pengawasan : {$hasilPengawasan}\nTanggal Pengawasan : {$tanggal}\nJenis Pelanggaran : {$jenispelanggaran}\n\nDalam rangka penanganan pelanggaran ini, mohon dapat melakukan klarifikasi melalui link berikut ini:\n{$url}\n\nLalu masukkan Kode Unik berikut:\n*{$this->unique_code}*{$mapsLine}";
         $msg = urlencode($msgRaw);
         return "https://wa.me/{$phone}?text={$msg}";
     }
