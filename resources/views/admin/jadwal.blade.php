@@ -539,6 +539,13 @@
                         <i class="fab fa-whatsapp"></i> Hubungi
                     </a>
                     @endif
+                    <form action="{{ route('jadwal.destroy', $s->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini? Data pelayanan juga akan terhapus.');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="action-btn" style="background: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5; width: 100%; margin-top: 0.5rem;">
+                            <i class="fas fa-trash-alt"></i> Hapus
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

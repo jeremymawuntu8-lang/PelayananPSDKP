@@ -336,7 +336,7 @@ class ServiceRequestController extends Controller
                     }
                 }
             ],
-            'violation_reasons' => 'required|array|min:1',
+            'violation_reasons' => 'nullable|array',
             'violation_reasons.*' => 'in:ketidaktahuan_aturan,ketidaktahuan_batas_wilayah,cuaca_buruk,mengantar_logistik,kerusakan_kapal,abk_sakit,kondisi_darurat,lainnya',
             'violation_other' => [
                 'nullable', 'string',
@@ -346,7 +346,7 @@ class ServiceRequestController extends Controller
                     }
                 }
             ],
-            'doc_bukti_dukung' => 'required|file|mimes:pdf,png,jpg,jpeg|max:10240',
+            'doc_bukti_dukung' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:10240',
         ]);
 
         $service->update([
@@ -356,7 +356,7 @@ class ServiceRequestController extends Controller
             'arrival_time' => $validated['arrival_time'],
             'attendance_type' => implode(',', $validated['attendance_type']),
             'attendance_notes' => $validated['attendance_notes'] ?? null,
-            'violation_reasons' => implode(',', $validated['violation_reasons']),
+            'violation_reasons' => isset($validated['violation_reasons']) ? implode(',', $validated['violation_reasons']) : null,
             'violation_other' => $validated['violation_other'] ?? null,
             'status' => 'submitted',
             'responded_at' => now(),

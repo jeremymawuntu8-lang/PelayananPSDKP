@@ -468,7 +468,7 @@
 
                 <div class="mb-4">
                     <label class="form-label d-flex align-items-center gap-2 mb-3">
-                        <i class="fas fa-exclamation-triangle text-warning"></i> Alasan Utama Melanggar <span class="text-danger">*</span>
+                        <i class="fas fa-exclamation-triangle text-warning"></i> Alasan Utama Melanggar
                     </label>
                     @php $selectedReasons = old('violation_reasons', $service->violation_reasons ? explode(',', $service->violation_reasons) : []); @endphp
                     <div class="violation-reasons-list">
@@ -506,7 +506,7 @@
 
                 <div class="mb-4">
                     <label class="form-label d-flex align-items-center gap-2 mb-2">
-                        <i class="fas fa-cloud-upload-alt text-primary"></i> Unggah Bukti Dukung <span class="text-danger">*</span>
+                        <i class="fas fa-cloud-upload-alt text-primary"></i> Unggah Bukti Dukung
                     </label>
                     <p class="text-muted fs-sm mb-2">Unggah bukti pendukung sesuai alasan yang dipilih (foto, surat dokter, kwitansi, dll)</p>
                     <div class="file-upload-box">

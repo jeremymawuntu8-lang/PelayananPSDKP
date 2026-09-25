@@ -223,17 +223,93 @@
     <div class="col-lg-4">
         {{-- Tanggapan Company --}}
         <div class="card mb-3 border-0 shadow-sm">
-            <div class="card-header bg-white"><i class="fas fa-comments me-2 text-primary"></i>Tanggapan Pemilik Kapal</div>
+            <div class="card-header bg-white fw-bold"><i class="fas fa-comments me-2 text-primary"></i>Tanggapan Pemilik Kapal</div>
             <div class="card-body">
-                @if($service->company_response)
-                <div class="bg-primary-soft p-3 rounded-md mb-2">
-                    <p class="mb-1">{{ $service->company_response }}</p>
-                    <small class="text-muted">{{ $service->responded_at ? $service->responded_at->format('d M Y H:i') : '' }}</small>
-                </div>
+                @if($service->status !== 'draft' && $service->status !== 'waiting_company')
+                    
+                    {{-- Alasan Melanggar --}}
+                    <div class="mb-3">
+                        <div class="fw-semibold text-muted mb-1" style="font-size: 0.85rem;"><i class="fas fa-exclamation-circle me-1 text-warning"></i> Alasan Utama Melanggar</div>
+                        @if($service->violation_reasons)
+                            <div class="d-flex flex-wrap gap-1 mt-1">
+                                @php
+                                    $reasonLabels = [
+                                        'ketidaktahuan_aturan' => 'Ketidaktahuan aturan',
+                                        'ketidaktahuan_batas_wilayah' => 'Ketidaktahuan batas wilayah',
+                                        'cuaca_buruk' => 'Cuaca buruk',
+                                        'mengantar_logistik' => 'Mengantar Logistik',
+                                        'kerusakan_kapal' => 'Kerusakan kapal',
+                                        'abk_sakit' => 'ABK sakit',
+                                        'kondisi_darurat' => 'Kondisi darurat',
+                                        'lainnya' => 'Lainnya',
+                                    ];
+                                    $vReasons = explode(',', $service->violation_reasons);
+                                @endphp
+                                @foreach($vReasons as $vr)
+                                    <span class="badge bg-warning bg-opacity-10 text-warning border border-warning-subtle" style="font-size: 0.75rem;">
+                                        {{ $reasonLabels[$vr] ?? $vr }}
+                                    </span>
+                                @endforeach
+                            </div>
+                        @else
+                            <span class="text-muted fs-sm">-</span>
+                        @endif
+                    </div>
+
+                    {{-- Keterangan Lainnya --}}
+                    @if($service->violation_other)
+                    <div class="mb-3">
+                        <div class="fw-semibold text-muted mb-1" style="font-size: 0.85rem;"><i class="fas fa-align-left me-1 text-info"></i> Keterangan Lainnya</div>
+                        <div class="bg-light p-2 rounded border border-light-subtle fs-sm pre-wrap">{{ $service->violation_other }}</div>
+                    </div>
+                    @endif
+
+                    {{-- Rencana Kehadiran --}}
+                    <div class="mb-3">
+                        <div class="fw-semibold text-muted mb-1" style="font-size: 0.85rem;"><i class="fas fa-users me-1 text-success"></i> Rencana Kehadiran</div>
+                        @if($service->attendance_type)
+                            <div class="d-flex flex-wrap gap-1 mt-1 mb-2">
+                                @php $attendances = explode(',', $service->attendance_type); @endphp
+                                @if(in_array('pemilik', $attendances))
+                                    <span class="badge bg-success bg-opacity-10 text-success border border-success-subtle"><i class="fas fa-user-tie me-1"></i>Pemilik</span>
+                                @endif
+                                @if(in_array('nahkoda', $attendances))
+                                    <span class="badge bg-info bg-opacity-10 text-info border border-info-subtle"><i class="fas fa-ship me-1"></i>Nahkoda</span>
+                                @endif
+                                @if(in_array('diwakilkan', $attendances))
+                                    <span class="badge bg-primary bg-opacity-10 text-primary border border-primary-subtle"><i class="fas fa-users me-1"></i>Diwakilkan</span>
+                                @endif
+                            </div>
+                            @if(in_array('diwakilkan', $attendances) && $service->attendance_notes)
+                                <div class="bg-light p-2 rounded border border-light-subtle fs-sm">
+                                    <span class="fw-semibold text-muted"><i class="fas fa-arrow-right me-1"></i>Diwakilkan Oleh:</span> {{ $service->attendance_notes }}
+                                </div>
+                            @endif
+                        @else
+                            <span class="text-muted fs-sm">-</span>
+                        @endif
+                    </div>
+
+                    {{-- Klarifikasi Tambahan --}}
+                    <div class="mb-2">
+                        <div class="fw-semibold text-muted mb-1" style="font-size: 0.85rem;"><i class="fas fa-comment-dots me-1 text-secondary"></i> Klarifikasi Tambahan</div>
+                        @if($service->company_response)
+                            <div class="bg-primary bg-opacity-10 p-3 rounded border border-primary-subtle fs-sm pre-wrap">{{ $service->company_response }}</div>
+                        @else
+                            <span class="text-muted fs-sm">-</span>
+                        @endif
+                    </div>
+                    
+                    <hr>
+                    <div class="text-end text-muted fs-xs">
+                        <i class="fas fa-clock me-1"></i> Direspon pada: {{ $service->responded_at ? $service->responded_at->format('d M Y H:i') : '-' }}
+                    </div>
+
                 @else
-                <div class="empty-state py-2">
-                    <i class="fas fa-comment-slash empty-state-icon" style="font-size: 1.5rem;"></i>
-                    <div class="empty-state-text mt-2">Belum ada tanggapan dari pemilik kapal.</div>
+                <div class="empty-state py-4 text-center">
+                    <i class="fas fa-comment-slash text-muted mb-2" style="font-size: 2rem;"></i>
+                    <div class="text-muted fw-semibold">Belum ada tanggapan</div>
+                    <div class="text-muted fs-sm">Pemilik kapal belum mengisi formulir.</div>
                 </div>
                 @endif
             </div>
@@ -280,6 +356,106 @@
 @push('styles')
 <style>
 .pre-wrap { white-space: pre-wrap; word-break: break-word; }
+
+/* Detail Section */
+.detail-section {
+    background: #fff;
+    border-radius: 0.75rem;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+}
+.detail-section-header {
+    background: #0A3D6B; /* Default primary */
+    color: #fff;
+    padding: 0.75rem 1.25rem;
+    font-weight: 700;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+.detail-section-header.teal { background: #0D9488; }
+.detail-section-header.orange { background: #EA580C; }
+
+.detail-section-body {
+    padding: 0;
+}
+.detail-row {
+    display: flex;
+    padding: 0.85rem 1.25rem;
+    border-bottom: 1px solid #F3F4F6;
+    align-items: flex-start;
+}
+.detail-row:last-child { border-bottom: none; }
+.detail-label {
+    flex: 0 0 40%;
+    max-width: 200px;
+    color: #6B7280;
+    font-weight: 600;
+    font-size: 0.85rem;
+}
+.detail-value {
+    flex: 1;
+    color: #1F2937;
+    font-size: 0.9rem;
+}
+
+/* Timeline */
+.timeline {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    position: relative;
+}
+.timeline::before {
+    content: '';
+    position: absolute;
+    left: 14px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #E5E7EB;
+}
+.timeline-item {
+    position: relative;
+    padding-left: 2.5rem;
+    margin-bottom: 1.5rem;
+}
+.timeline-item:last-child { margin-bottom: 0; }
+.timeline-icon {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: #E5E7EB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.75rem;
+    z-index: 1;
+}
+.timeline-icon.document { background: #3B82F6; }
+.timeline-icon.mail { background: #10B981; }
+
+.timeline-date {
+    font-size: 0.75rem;
+    color: #6B7280;
+    margin-bottom: 0.25rem;
+}
+.timeline-content {
+    background: #F9FAFB;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 1px solid #F3F4F6;
+}
+
+/* Custom utility colors */
+.bg-primary-soft { background-color: rgba(10, 61, 107, 0.05); }
+.text-bg-primary { background-color: #0A3D6B !important; color: #fff !important; }
 </style>
 @endpush
 

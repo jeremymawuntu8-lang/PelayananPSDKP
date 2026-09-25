@@ -15,9 +15,9 @@
         <i class="fas fa-check"></i>
     </div>
     
-    <h2 class="fw-bold mb-3">Tanggapan Berhasil Dikirim!</h2>
+    <h2 class="fw-bold mb-3">Terima Kasih!</h2>
     
-    <p class="text-muted mb-4">Terima kasih atas tanggapan Anda. Tim PSDKP akan segera meninjau klarifikasi yang Anda berikan. Anda dapat menutup halaman ini sekarang.</p>
+    <p class="text-muted mb-4">Tanggapan, Jadwal Kehadiran, dan Dokumen Anda berhasil dikirim. Tim PSDKP akan segera meninjau klarifikasi yang Anda berikan. Anda dapat menutup halaman ini sekarang.</p>
     
     <a href="https://psdkp.kkp.go.id" class="btn btn-primary px-4">Kembali ke Beranda PSDKP</a>
 </div>

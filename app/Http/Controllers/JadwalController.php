@@ -39,4 +39,10 @@ class JadwalController extends Controller
 
         return view('admin.jadwal', compact('schedules', 'filter', 'stats'));
     }
+
+    public function destroy(ServiceRequest $jadwal)
+    {
+        $jadwal->delete();
+        return back()->with('success', 'Jadwal pelayanan berhasil dihapus.');
+    }
 }
