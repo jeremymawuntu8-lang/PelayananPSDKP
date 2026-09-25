@@ -307,9 +307,17 @@
 
                 @else
                 <div class="empty-state py-4 text-center">
-                    <i class="fas fa-comment-slash text-muted mb-2" style="font-size: 2rem;"></i>
-                    <div class="text-muted fw-semibold">Belum ada tanggapan</div>
-                    <div class="text-muted fs-sm">Pemilik kapal belum mengisi formulir.</div>
+                    @if($service->form_opened_at)
+                        <i class="fas fa-envelope-open-text text-primary mb-2" style="font-size: 2rem;"></i>
+                        <div class="text-primary fw-semibold">Link Sudah Dibuka</div>
+                        <div class="text-muted fs-sm mt-1">Pemilik kapal telah melihat formulir pada:</div>
+                        <div class="fw-bold fs-sm">{{ $service->form_opened_at->format('d M Y, H:i') }} WIB</div>
+                        <div class="text-muted fs-xs mt-2">(Namun belum mengirimkan tanggapan)</div>
+                    @else
+                        <i class="fas fa-comment-slash text-muted mb-2" style="font-size: 2rem;"></i>
+                        <div class="text-muted fw-semibold">Belum ada tanggapan</div>
+                        <div class="text-muted fs-sm">Pemilik kapal belum mengklik atau membuka link formulir.</div>
+                    @endif
                 </div>
                 @endif
             </div>

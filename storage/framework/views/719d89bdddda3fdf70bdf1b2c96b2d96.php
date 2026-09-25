@@ -474,22 +474,52 @@
                     </div>
                     
                     <div class="d-flex align-items-center flex-wrap gap-2">
-                        <?php if($s->attendance_type == 'pemilik'): ?>
+                        <?php $attendances = explode(',', $s->attendance_type); ?>
+                        <?php if(in_array('pemilik', $attendances)): ?>
                             <span class="attendance-badge sendiri">
                                 <i class="fas fa-user-tie"></i> Pemilik
                             </span>
-                        <?php elseif($s->attendance_type == 'nahkoda'): ?>
+                        <?php endif; ?>
+                        <?php if(in_array('nahkoda', $attendances)): ?>
                             <span class="attendance-badge" style="background: rgba(2, 119, 189, 0.1); color: #0277BD; border: 1px solid rgba(2, 119, 189, 0.2);">
                                 <i class="fas fa-ship"></i> Nahkoda
                             </span>
-                        <?php else: ?>
+                        <?php endif; ?>
+                        <?php if(in_array('diwakilkan', $attendances)): ?>
                             <span class="attendance-badge diwakilkan">
                                 <i class="fas fa-users"></i> Diwakilkan
                             </span>
                         <?php endif; ?>
                     </div>
-                    <?php if($s->attendance_type == 'diwakilkan' && $s->attendance_notes): ?>
+                    <?php if(in_array('diwakilkan', $attendances) && $s->attendance_notes): ?>
                         <div class="delegate-note">→ <?php echo e($s->attendance_notes); ?></div>
+                    <?php endif; ?>
+
+                    <?php if($s->violation_reasons): ?>
+                        <div class="d-flex flex-wrap gap-1 mt-1">
+                            <?php
+                                $reasonLabels = [
+                                    'ketidaktahuan_aturan' => 'Ketidaktahuan aturan',
+                                    'ketidaktahuan_batas_wilayah' => 'Ketidaktahuan batas wilayah',
+                                    'cuaca_buruk' => 'Cuaca buruk',
+                                    'mengantar_logistik' => 'Mengantar Logistik',
+                                    'kerusakan_kapal' => 'Kerusakan kapal',
+                                    'abk_sakit' => 'ABK sakit',
+                                    'kondisi_darurat' => 'Kondisi darurat',
+                                    'lainnya' => 'Lainnya',
+                                ];
+                                $vReasons = explode(',', $s->violation_reasons);
+                            ?>
+                            <?php $__currentLoopData = $vReasons; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $vr): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
+                                <span class="badge bg-warning bg-opacity-10 text-warning" style="font-size: 0.7rem;">
+                                    <i class="fas fa-exclamation-circle me-1"></i><?php echo e($reasonLabels[$vr] ?? $vr); ?>
+
+                                </span>
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
+                            <?php if($s->violation_other): ?>
+                                <span class="badge bg-secondary bg-opacity-10 text-secondary" style="font-size: 0.7rem;"><?php echo e($s->violation_other); ?></span>
+                            <?php endif; ?>
+                        </div>
                     <?php endif; ?>
 
                     <?php if($s->documents->count() > 0): ?>
@@ -514,6 +544,13 @@
                         <i class="fab fa-whatsapp"></i> Hubungi
                     </a>
                     <?php endif; ?>
+                    <form action="<?php echo e(route('jadwal.destroy', $s->id)); ?>" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus jadwal ini? Data pelayanan juga akan terhapus.');">
+                        <?php echo csrf_field(); ?>
+                        <?php echo method_field('DELETE'); ?>
+                        <button type="submit" class="action-btn" style="background: #FEF2F2; color: #DC2626; border: 1px solid #FCA5A5; width: 100%; margin-top: 0.5rem;">
+                            <i class="fas fa-trash-alt"></i> Hapus
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>

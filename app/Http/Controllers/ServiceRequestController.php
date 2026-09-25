@@ -267,6 +267,11 @@ class ServiceRequestController extends Controller
         if (in_array($service->status, ['completed', 'cancelled'])) {
             return view('services.public_closed');
         }
+
+        // Track when the form is opened by the company
+        if (is_null($service->form_opened_at)) {
+            $service->update(['form_opened_at' => now()]);
+        }
         
         // Get booked slots for future dates
         $bookedSlotsRaw = ServiceRequest::whereNotNull('arrival_date')

@@ -14,7 +14,7 @@ class ServiceRequest extends Model
         'observation_date', 'latitude', 'longitude', 'company_response', 'officer_response', 
         'submitted_at', 'responded_at', 'analyst', 'verificator', 'unit_kerja', 
         'lembar_indikasi', 'surat_analisis_nomor', 'surat_analisis_dokumen', 'skat_nomor', 'masa_berlaku',
-        'arrival_date', 'arrival_day', 'arrival_time', 'unique_code', 'attendance_type', 'attendance_notes'
+        'arrival_date', 'arrival_day', 'arrival_time', 'unique_code', 'attendance_type', 'attendance_notes', 'form_opened_at'
     ];
 
     protected $casts = [
@@ -25,6 +25,7 @@ class ServiceRequest extends Model
         'arrival_date' => 'date',
         'submitted_at' => 'datetime',
         'responded_at' => 'datetime',
+        'form_opened_at' => 'datetime',
     ];
 
     public function company(): BelongsTo { return $this->belongsTo(Company::class); }
